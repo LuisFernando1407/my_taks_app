@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
             android:fontFamily="@font/montserrat"
-            android:textSize="18dp"
+            android:textSize="38dp"
             android:textStyle="bold"
             android:text="My Tasks"
           />
