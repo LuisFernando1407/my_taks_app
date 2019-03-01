@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:background="@color/white_app"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:textSize="14dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/black_app"
+                    android:text="Nome completo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/name"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:fontFamily="@font/montserrat"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:text="Luís Fernando"
+                    android:background="@drawable/bg_edit_text_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp" />
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:textSize="14dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/black_app"
+                    android:text="Sexo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Spinner
+                    android:id="@+id/sex"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_edit_text_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"/>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:textSize="14dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/black_app"
+                    android:text="Qual sua área de atuação?"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <RadioGroup
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/account_reason"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/student"
+                        android:text="Estudante"
+                        android:textColor="@color/black_app"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton
+                        android:layout_marginLeft="40dp"
+                        android:id="@+id/professional"
+                        android:text="Profissional"
+                        android:textColor="@color/black_app"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RadioGroup>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:textSize="14dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/black_app"
+                    android:text="Telefone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/phone"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:imeOptions="actionNext"
+                    android:text="(85) 9811-3456"
+                    android:inputType="number"
+                    android:fontFamily="@font/montserrat"
+                    android:background="@drawable/bg_edit_text_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp" />
+
+
+                <CheckBox
+                    android:layout_marginTop="15dp"
+                    android:textSize="14dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="10dp"
+                    android:checked="true"
+                    android:id="@+id/terms"
+                    android:textColor="@color/black_app"
+                    android:text="Aceito termos de uso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/salve"
+                    android:textColor="@color/black_app"
+                    android:text="Salvar"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/montserrat"
+                    android:background="@drawable/bg_button_success"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+</ScrollView>

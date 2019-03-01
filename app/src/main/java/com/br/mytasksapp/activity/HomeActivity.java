@@ -11,6 +11,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -19,12 +21,26 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.adapter.DashboardAdapter;
+import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.util.FontsOverride;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context context;
+    private RecyclerView recyclerDash;
+
+    /* Randoms */
+    private String[] itemsTasks = { "wine", "sniff", "passenger", "fax", "impartial", "protest",
+            "channel", "drop", "quirky", "yell", "telephone", "room", "giraffe", "tidy", "wistful", "expansion", "cover",
+            "fry", "warm", "rustic", "tongue",};
+    private String[] itemsDateTasks = { "21/04/2019 11:50", "25/04/2019 04:35", "06/04/2019 15:19", "15/04/2019 23:35", "22/04/2019 05:21", "19/04/2019 22:40", "21/04/2019 02:25",
+            "03/04/2019 10:35", "27/04/2019 04:22", "19/04/2019 18:05", "09/04/2019 16:44", "27/04/2019 03:08", "05/04/2019 20:55",
+            "29/04/2019 04:41", "04/04/2019 16:47", "26/04/2019 10:27", "23/04/2019 23:13", "09/04/2019 15:54", "19/04/2019 19:11", "30/04/2019 20:34", "11/04/2019 02:42"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +61,15 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        recyclerDash = findViewById(R.id.recycler_dash);
+
+
+        DashboardAdapter dashboardAdapter = new DashboardAdapter(context, getTasks());
+        recyclerDash.setAdapter(dashboardAdapter);
+
+        RecyclerView.LayoutManager layout = new GridLayoutManager(context, 3);
+        recyclerDash.setLayoutManager(layout);
 
         setFontFamilyInMenu(navigationView);
     }
@@ -143,5 +168,17 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private ArrayList<Task> getTasks(){
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        int index = 0;
+
+        for(int i = 0; i < itemsTasks.length; i++) {
+            tasks.add(new Task(index++, itemsTasks[i], itemsDateTasks[i]));
+        }
+
+        return tasks;
     }
 }

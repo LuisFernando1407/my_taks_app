@@ -102,7 +102,7 @@
                     android:text="Deletar sua conta"
                     android:textStyle="bold"
                     android:fontFamily="@font/montserrat"
-                    android:background="@drawable/bg_button_error"
+                    android:background="@drawable/bg_button_delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

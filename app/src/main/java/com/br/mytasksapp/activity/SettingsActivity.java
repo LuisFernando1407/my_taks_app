@@ -33,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private String[] itemsSettings = {
             "Notificações",
+            "Som notification",
             "Perfil visível",
             "Sincronização AUTO"
     };

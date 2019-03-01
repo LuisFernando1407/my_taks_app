@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:local="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        local:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONFIGURAÇÕES"
+            android:layout_marginRight="55dp"
+            android:gravity="center"
+            android:textColor="@color/black_app"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat"
+            android:textSize="16dp"
+            android:id="@+id/toolbar_title" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:background="@color/gray_app"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="55dp"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_layout"/>
+
+</LinearLayout>

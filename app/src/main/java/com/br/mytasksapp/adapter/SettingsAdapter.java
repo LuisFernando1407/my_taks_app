@@ -1,6 +1,7 @@
 package com.br.mytasksapp.adapter;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,20 +48,33 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Recycl
         recyclerViewHolder.toggle_action.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String message;
-                if(isChecked){
-                    message = setting.getAction() + " ativado";
-                }else{
-                    message = setting.getAction() + " desativado";
-                }
+                if(!setting.getAction().equalsIgnoreCase("Som notification")){
+                    String message;
+                    if(isChecked){
+                        message = setting.getAction() + " ativado";
+                    }else{
+                        message = setting.getAction() + " desativado";
+                    }
 
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                }else{
+                    MediaPlayer mp = loadSound();
+                    if(isChecked) {
+                        mp.start();
+                    }else{
+                        mp.stop();
+                    }
+                }
             }
         });
 
         if(getItemCount() - 1 == i && i > 1){
             recyclerViewHolder.divider.setVisibility(View.GONE);
         }
+    }
+
+    private MediaPlayer loadSound(){
+        return MediaPlayer.create(context, R.raw.notify_system_generic);
     }
 
     @Override
