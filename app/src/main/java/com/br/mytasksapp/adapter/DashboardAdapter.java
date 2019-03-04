@@ -6,13 +6,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +46,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, @SuppressLint("RecyclerView") final int i) {
+    public void onBindViewHolder(@NonNull final RecyclerViewHolder recyclerViewHolder, @SuppressLint("RecyclerView") final int i) {
         final Task task = tasks.get(i);
 
         recyclerViewHolder.name.setText(Util.limitString(task.getName(), 7, "..."));
@@ -60,6 +65,45 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
                 alert(i, task.getName());
             }
         });
+
+        recyclerViewHolder.info.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                PopupMenu popup = new PopupMenu(context, recyclerViewHolder.info);
+
+                popup.getMenuInflater()
+                        .inflate(R.menu.options_home_menu, popup.getMenu());
+
+                setFontFamilyInMenu(popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Util.alert(context, item.getTitle().toString(), item.getTitle() + " o item " + task.getName() + "?", null);
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
+                return true;
+            }
+        });
+    }
+
+    private void setFontFamilyInMenu(Menu m){
+        for (int i = 0; i < m.size(); i++) {
+            MenuItem mi = m.getItem(i);
+
+            //for applying a font to subMenu ...
+            SubMenu subMenu = mi.getSubMenu();
+            if (subMenu != null && subMenu.size() > 0) {
+                for (int j = 0; j < subMenu.size(); j++) {
+                    MenuItem subMenuItem = subMenu.getItem(j);
+                    Util.applyFontToMenuItem(context, subMenuItem);
+                }
+            }
+            //the method we have create in activity
+            Util.applyFontToMenuItem(context, mi);
+        }
     }
 
     private void alert(final int position, String name){

@@ -44,7 +44,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Recycl
 
         recyclerViewHolder.action.setText(setting.getAction());
 
-        /* TODO: Usar conceito S.O.L.I.D */
         recyclerViewHolder.toggle_action.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -24,6 +24,7 @@ import com.br.mytasksapp.R;
 import com.br.mytasksapp.adapter.DashboardAdapter;
 import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.util.FontsOverride;
+import com.br.mytasksapp.util.Util;
 
 import java.util.ArrayList;
 
@@ -64,7 +65,6 @@ public class HomeActivity extends AppCompatActivity
 
         recyclerDash = findViewById(R.id.recycler_dash);
 
-
         DashboardAdapter dashboardAdapter = new DashboardAdapter(context, getTasks());
         recyclerDash.setAdapter(dashboardAdapter);
 
@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity
 
         Menu m = navigationView.getMenu();
 
-        for (int i=0;i<m.size();i++) {
+        for (int i = 0; i < m.size(); i++) {
             MenuItem mi = m.getItem(i);
 
             //for applying a font to subMenu ...
@@ -86,19 +86,12 @@ public class HomeActivity extends AppCompatActivity
             if (subMenu != null && subMenu.size() > 0) {
                 for (int j = 0; j < subMenu.size(); j++) {
                     MenuItem subMenuItem = subMenu.getItem(j);
-                    applyFontToMenuItem(subMenuItem);
+                    Util.applyFontToMenuItem(context, subMenuItem);
                 }
             }
             //the method we have create in activity
-            applyFontToMenuItem(mi);
+            Util.applyFontToMenuItem(context, mi);
         }
-    }
-
-    private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "montserrat_regular.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new FontsOverride("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
     }
 
     @Override
