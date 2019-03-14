@@ -16,7 +16,7 @@ public class MyTaskApplication extends Application {
         MyTaskApplication.context = getApplicationContext();
     }
 
-    public static Context context(){
+    public static Context getInstance(){
         return MyTaskApplication.context;
     }
 }

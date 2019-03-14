@@ -1,4 +1,4 @@
-package com.br.mytasksapp.activity;
+package com.br.mytasksapp.ui.activity;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.br.mytasksapp.R;
-import com.br.mytasksapp.adapter.MyDataAdapter;
+import com.br.mytasksapp.ui.adapter.MyDataAdapter;
 
 import java.util.Objects;
 

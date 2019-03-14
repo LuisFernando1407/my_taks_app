@@ -1,4 +1,4 @@
-package com.br.mytasksapp.activity;
+package com.br.mytasksapp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.util.Util;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,9 +18,17 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                if(Util.getApiToken() != null){
+                    startActivity(HomeActivity.class);
+                }else{
+                    startActivity(LoginActivity.class);
+                }
             }
         }, 2500);
     }
 
+    private void startActivity(Class redirect){
+        startActivity(new Intent(SplashActivity.this, redirect));
+        finish();
+    }
 }

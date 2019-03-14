@@ -1,10 +1,9 @@
-package com.br.mytasksapp.activity;
+package com.br.mytasksapp.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,25 +13,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
+import android.widget.TextView;
 
 import com.br.mytasksapp.R;
-import com.br.mytasksapp.adapter.DashboardAdapter;
+import com.br.mytasksapp.api.interfaces.OnTaskCompleted;
+import com.br.mytasksapp.api.rest.TaskHttp;
+import com.br.mytasksapp.model.User;
+import com.br.mytasksapp.ui.adapter.DashboardAdapter;
 import com.br.mytasksapp.model.Task;
-import com.br.mytasksapp.util.FontsOverride;
 import com.br.mytasksapp.util.Util;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnTaskCompleted {
 
     private Context context;
     private RecyclerView recyclerDash;
+
+    private TaskHttp taskHttp;
 
     /* Randoms */
     private String[] itemsTasks = { "wine", "sniff", "passenger", "fax", "impartial", "protest",
@@ -60,10 +67,25 @@ public class HomeActivity extends AppCompatActivity
 
         this.context = this;
 
+        taskHttp = new TaskHttp(context, this);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerLayout = navigationView.getHeaderView(0);
+
+        User user = new Gson().fromJson(Util.getPref("lastUser", null), User.class);
+
+        TextView name = headerLayout.findViewById(R.id.name);
+        TextView email = headerLayout.findViewById(R.id.email);
+
+        name.setText(user.getName());
+        email.setText(user.getEmail());
+
         recyclerDash = findViewById(R.id.recycler_dash);
+
+        /* Execute api */
+        taskHttp.getMyTasks();
 
         DashboardAdapter dashboardAdapter = new DashboardAdapter(context, getTasks());
         recyclerDash.setAdapter(dashboardAdapter);
@@ -111,9 +133,9 @@ public class HomeActivity extends AppCompatActivity
                 .setNegativeButton("Não", null)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        moveTaskToBack(true);
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                        System.exit(1);
+                        Util.setApiToken(null);
+                        startActivity(new Intent(context, LoginActivity.class));
+                        finish();
                     }
                 }).create();
 
@@ -173,5 +195,10 @@ public class HomeActivity extends AppCompatActivity
         }
 
         return tasks;
+    }
+
+    @Override
+    public void taskCompleted(JSONObject results) {
+        Log.d("JSON-d", results.toString());
     }
 }

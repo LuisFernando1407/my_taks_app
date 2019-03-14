@@ -1,4 +1,4 @@
-package com.br.mytasksapp.fragment;
+package com.br.mytasksapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

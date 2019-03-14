@@ -1,4 +1,4 @@
-package com.br.mytasksapp.adapter;
+package com.br.mytasksapp.ui.adapter;
 
 import android.content.Context;
 import android.media.MediaPlayer;

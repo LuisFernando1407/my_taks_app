@@ -1,4 +1,4 @@
-package com.br.mytasksapp.activity;
+package com.br.mytasksapp.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.br.mytasksapp.R;
-import com.br.mytasksapp.adapter.SettingsAdapter;
+import com.br.mytasksapp.ui.adapter.SettingsAdapter;
 import com.br.mytasksapp.model.Setting;
 import com.br.mytasksapp.util.Util;
 
@@ -131,7 +131,7 @@ public class SettingsActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Util.alert(context, "Atenção!", "Deseja realmente excluir sua conta?", HomeActivity.class);
+                Util.alert(context, "Atenção!", "Deseja realmente excluir sua conta?", HomeActivity.class, true);
             }
         });
 

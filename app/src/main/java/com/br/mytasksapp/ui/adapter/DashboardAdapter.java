@@ -1,15 +1,12 @@
-package com.br.mytasksapp.adapter;
+package com.br.mytasksapp.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,7 +75,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        Util.alert(context, item.getTitle().toString(), item.getTitle() + " o item " + task.getName() + "?", null);
+                        Util.alert(context, item.getTitle().toString(), item.getTitle() + " o item " + task.getName() + "?", null, true);
                         return true;
                     }
                 });

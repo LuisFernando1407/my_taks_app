@@ -1,11 +1,11 @@
-package com.br.mytasksapp.adapter;
+package com.br.mytasksapp.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.br.mytasksapp.fragment.AccessDataFragment;
-import com.br.mytasksapp.fragment.GeneralDataFragment;
+import com.br.mytasksapp.ui.fragment.AccessDataFragment;
+import com.br.mytasksapp.ui.fragment.GeneralDataFragment;
 
 public class MyDataAdapter extends FragmentPagerAdapter {
     private int numOfTabs;

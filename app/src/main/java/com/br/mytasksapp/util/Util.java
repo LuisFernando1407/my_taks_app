@@ -1,10 +1,16 @@
 package com.br.mytasksapp.util;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -13,40 +19,67 @@ import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.br.mytasksapp.MyTaskApplication;
 import com.br.mytasksapp.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Util {
-    public static void alert(final Context context, String title, String message, final Class redirect){
-        final AlertDialog alertDialog =  new AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(Html.fromHtml(message))
-                .setNegativeButton("Não", null)
-                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        if(redirect != null){
-                            context.startActivity(new Intent(context, redirect));
-                        }
-                    }
-                }).create();
+    public static void alert(final Context context, String title, String message, final Class redirect, boolean isButton){
+        final AlertDialog alertDialog;
 
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(context.getResources().getColor(R.color.gray_app));
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
-            }
-        });
+        if(isButton) {
+            alertDialog = new AlertDialog.Builder(context)
+                    .setTitle(title)
+                    .setCancelable(false)
+                    .setMessage(Html.fromHtml(message))
+                    .setNegativeButton("Não", null)
+                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            if (redirect != null) {
+                                context.startActivity(new Intent(context, redirect));
+                            }
+                        }
+                    }).create();
+
+            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(context.getResources().getColor(R.color.gray_app));
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                }
+            });
+        }else{
+            alertDialog = new AlertDialog.Builder(context)
+                    .setTitle(title)
+                    .setMessage(Html.fromHtml(message))
+                    .create();
+        }
 
         alertDialog.show();
     }
 
+    /**
+     * validate your email address format. Ex-akhi@mani.com
+     */
+    public static boolean emailValidator(String email)
+    {
+        Pattern pattern;
+        Matcher matcher;
+        final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 
     public static void applyFontToMenuItem(Context context, MenuItem mi) {
         Typeface font = Typeface.createFromAsset(context.getAssets(), "montserrat_regular.ttf");
@@ -82,6 +115,7 @@ public class Util {
         spinner.setAdapter(spinnerArrayAdapter);
     }
 
+
     public static String limitString(String value, int limit, String format) {
         if (value.length() <= limit) {
             return value;
@@ -89,4 +123,56 @@ public class Util {
         return value.substring(0, limit-1) + format;
     }
 
+    private static SharedPreferences getSessionPreferences() {
+        Context ctx = MyTaskApplication.getInstance();
+        return ctx.getSharedPreferences("SESSION_PREFERENCES", ctx.MODE_PRIVATE);
+    }
+
+    public static void setApiToken(String token) {
+        SharedPreferences mPreferences = getSessionPreferences();
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString("API_TOKEN", token);
+        editor.apply();
+    }
+
+    public static String getApiToken() {
+        return getSessionPreferences().getString("API_TOKEN", null);
+    }
+
+    public static Dialog loadingDialog(final Context ctx) {
+        Dialog loading = new Dialog(ctx);
+        loading.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        loading.setContentView(R.layout.dialog_loading);
+        Objects.requireNonNull(loading.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        loading.setCanceledOnTouchOutside(false);
+        loading.setCancelable(false);
+        return loading;
+    }
+
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                MyTaskApplication.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static void putPref(String key, String value) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyTaskApplication.getInstance());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+
+    public static String getPref(String key, String defValue) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MyTaskApplication.getInstance());
+        return preferences.getString(key, defValue);
+    }
+
+    public static void removePref(String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyTaskApplication.getInstance());
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.remove(key);
+        ed.apply();
+    }
 }

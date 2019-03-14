@@ -1,4 +1,4 @@
-package com.br.mytasksapp.fragment;
+package com.br.mytasksapp.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -96,7 +96,7 @@ public class GeneralDataFragment extends Fragment {
                             "<br> Área de atuação: " + account + "<br> Telefone: " + phone.getText().toString() +
                             "<br> Termos de uso: " + termsTxt;
 
-                    Util.alert(context, "Confirma os dados?", message, null);
+                    Util.alert(context, "Confirma os dados?", message, null, true);
 
                 }else{
                     Toast.makeText(context, "Selecione um tipo de área de atuação", Toast.LENGTH_LONG).show();
