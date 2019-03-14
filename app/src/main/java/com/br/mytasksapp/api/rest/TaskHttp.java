@@ -25,7 +25,7 @@ public class TaskHttp extends AuthenticatedHttp {
 
     public void getMyTasks() {
         client.addHeader("Authorization", Constants.API.TYPE_REQUEST + Util.getApiToken());
-        client.get(Constants.API.USER + "s", new BaseJsonHandler(context) {
+        client.get(Constants.API.USERS, new BaseJsonHandler(context) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 listener.taskCompleted(response);
