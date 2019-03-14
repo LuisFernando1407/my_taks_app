@@ -14,17 +14,12 @@ public class AuthenticatedHttp {
     protected Context ctx;
     private static final int CONNECTION_TIMEOUT = 20*1000;
 
-    protected AsyncHttpClient getAuthHeader(AsyncHttpClient client) {
-        // add authenticate header
-        if(Util.getApiToken() != null){
-            client.addHeader("Authorization", Constants.API.TYPE_REQUEST + Util.getApiToken());
-        }
-        return client;
-    }
-
     protected void setupClient() {
         // start async http client
         client = new AsyncHttpClient();
+        if(Util.getApiToken() != null){
+            client.addHeader("Authorization", Constants.API.TYPE_REQUEST + Util.getApiToken());
+        }
         client.setTimeout(AuthenticatedHttp.CONNECTION_TIMEOUT);
     }
 }
