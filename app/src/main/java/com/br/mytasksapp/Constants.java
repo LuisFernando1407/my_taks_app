@@ -8,7 +8,9 @@ public class Constants {
         public static final String TYPE_REQUEST = "Bearer ";
 
         /* Homologação */
-        private static final String BASE_APP = "http://192.168.1.2:3000";
+        /* UFC = 172.18.104.138 */
+        /* ME = */
+        private static final String BASE_APP = "http://172.18.104.138:3000";
 
         private static final String BASE_API = BASE_APP + "/";
 
@@ -16,7 +18,7 @@ public class Constants {
 
         public static final String REGISTER = BASE_API + "auth/register";
 
-        public static final String USERS = BASE_API + "users";
+        public static final String USERS = BASE_API + "user";
 
     }
 }

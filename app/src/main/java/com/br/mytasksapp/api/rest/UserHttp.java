@@ -2,7 +2,6 @@ package com.br.mytasksapp.api.rest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.br.mytasksapp.Constants;
 import com.br.mytasksapp.api.BaseJsonHandler;

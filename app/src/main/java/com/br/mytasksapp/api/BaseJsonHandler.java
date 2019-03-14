@@ -23,9 +23,10 @@ import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
 public class BaseJsonHandler extends JsonHttpResponseHandler {
     private Context ctx;
     private Dialog loadingDialog;
+    /* TODO: Criar rota para refresh token */
     private UserHttp userHttp;
 
-    public BaseJsonHandler(Context ctx) {
+    protected BaseJsonHandler(Context ctx) {
         this.ctx = ctx;
         userHttp = new UserHttp(ctx);
         loadingDialog = Util.loadingDialog(ctx);
