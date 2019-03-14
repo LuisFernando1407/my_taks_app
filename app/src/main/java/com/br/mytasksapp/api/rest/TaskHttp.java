@@ -6,7 +6,6 @@ import com.br.mytasksapp.Constants;
 import com.br.mytasksapp.api.BaseJsonHandler;
 import com.br.mytasksapp.api.http.AuthenticatedHttp;
 import com.br.mytasksapp.api.interfaces.OnTaskCompleted;
-import com.br.mytasksapp.util.Util;
 
 import org.json.JSONObject;
 
@@ -24,7 +23,6 @@ public class TaskHttp extends AuthenticatedHttp {
     }
 
     public void getMyTasks() {
-        client.addHeader("Authorization", Constants.API.TYPE_REQUEST + Util.getApiToken());
         client.get(Constants.API.USERS, new BaseJsonHandler(context) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

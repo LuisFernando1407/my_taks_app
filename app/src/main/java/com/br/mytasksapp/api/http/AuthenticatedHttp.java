@@ -2,6 +2,7 @@ package com.br.mytasksapp.api.http;
 
 import android.content.Context;
 
+import com.br.mytasksapp.Constants;
 import com.br.mytasksapp.util.Util;
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -15,7 +16,9 @@ public class AuthenticatedHttp {
 
     protected AsyncHttpClient getAuthHeader(AsyncHttpClient client) {
         // add authenticate header
-        client.addHeader("Authorization", Util.getApiToken());
+        if(Util.getApiToken() != null){
+            client.addHeader("Authorization", Constants.API.TYPE_REQUEST + Util.getApiToken());
+        }
         return client;
     }
 
