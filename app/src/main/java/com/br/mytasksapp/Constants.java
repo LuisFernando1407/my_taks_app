@@ -10,7 +10,7 @@ public class Constants {
         /* Homologação */
         /* UFC = 172.18.104.138 */
         /* ME = */
-        private static final String BASE_APP = "http://172.18.104.138:3000";
+        private static final String BASE_APP = "http://192.168.0.104:3000";
 
         private static final String BASE_API = BASE_APP + "/";
 

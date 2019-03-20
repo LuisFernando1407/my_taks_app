@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -34,4 +35,8 @@ dependencies {
 
     /* loopj */
     implementation 'com.loopj.android:android-async-http:1.4.9'
+
+    /* Firebase */
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 }
