@@ -1,4 +1,4 @@
-package com.br.mytasksapp;
+package com.br.mytasksapp.fcm;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -14,6 +14,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.br.mytasksapp.R;
 import com.br.mytasksapp.ui.activity.HomeActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

@@ -1,19 +1,17 @@
-package com.br.mytasksapp;
+package com.br.mytasksapp.fcm;
 
+import com.br.mytasksapp.MyTaskApplication;
 import com.br.mytasksapp.api.rest.TaskHttp;
-import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.util.Util;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 public class MyFirebaseInstanceService extends FirebaseInstanceIdService {
-    private TaskHttp taskHttp;
-
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
 
-        taskHttp = new TaskHttp(MyTaskApplication.getInstance(), null);
+        TaskHttp taskHttp = new TaskHttp(MyTaskApplication.getInstance(), null);
 
         String token = FirebaseInstanceId.getInstance().getToken();
 
