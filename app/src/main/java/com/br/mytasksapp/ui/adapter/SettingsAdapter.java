@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 
 import com.br.mytasksapp.R;
 import com.br.mytasksapp.model.Setting;
+import com.br.mytasksapp.util.Util;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Recycl
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(!setting.getAction().equalsIgnoreCase("Som notification")){
                     String message;
+
+                    /* TODO: REQUEST NOTIFICATION */
                     if(isChecked){
                         message = setting.getAction() + " ativado";
                     }else{

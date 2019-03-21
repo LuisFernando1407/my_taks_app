@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.UiThread;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +33,8 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnTaskCompleted {
@@ -50,6 +53,8 @@ public class HomeActivity extends AppCompatActivity
             "29/04/2019 04:41", "04/04/2019 16:47", "26/04/2019 10:27", "23/04/2019 23:13", "09/04/2019 15:54", "19/04/2019 19:11", "30/04/2019 20:34", "11/04/2019 02:42"
     };
 
+    private Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,8 @@ public class HomeActivity extends AppCompatActivity
         toolbar.setTitle("");
 
         setSupportActionBar(toolbar);
+
+        timer = new Timer();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -68,6 +75,10 @@ public class HomeActivity extends AppCompatActivity
         this.context = this;
 
         taskHttp = new TaskHttp(context, this);
+
+        if(Util.getPref("first_access", null).equals("yes")){
+            taskHttp.setFCMToken(true);
+        }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

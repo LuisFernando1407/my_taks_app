@@ -68,6 +68,11 @@ public class Util {
         alertDialog.show();
     }
 
+    public static Boolean containsPref(String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyTaskApplication.getInstance());
+        return prefs.contains(key);
+    }
+
     /**
      * validate your email address format. Ex-akhi@mani.com
      */
@@ -137,6 +142,17 @@ public class Util {
 
     public static String getApiToken() {
         return getSessionPreferences().getString("API_TOKEN", null);
+    }
+
+    public static void setApiFCMToken(String token) {
+        SharedPreferences mPreferences = getSessionPreferences();
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString("API_FCM_TOKEN", token);
+        editor.apply();
+    }
+
+    public static String getApiFCMToken() {
+        return getSessionPreferences().getString("API_FCM_TOKEN", null);
     }
 
     public static Dialog loadingDialog(final Context ctx) {

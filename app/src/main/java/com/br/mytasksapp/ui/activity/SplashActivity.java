@@ -19,8 +19,10 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(Util.getApiToken() != null){
+                    Util.putPref("first_access", "no");
                     startActivity(HomeActivity.class);
                 }else{
+                    Util.putPref("first_access", "yes");
                     startActivity(LoginActivity.class);
                 }
             }

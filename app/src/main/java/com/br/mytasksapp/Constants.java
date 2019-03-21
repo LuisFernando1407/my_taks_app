@@ -18,7 +18,9 @@ public class Constants {
 
         public static final String REGISTER = BASE_API + "auth/register";
 
-        public static final String USERS = BASE_API + "user";
+        public static final String USER = BASE_API + "user";
+
+        public static final String TASKS = USER + "/tasks";
 
     }
 }

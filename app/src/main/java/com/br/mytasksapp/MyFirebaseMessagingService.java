@@ -23,14 +23,6 @@ import java.net.URL;
 import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
-    @Override
-    public void onNewToken(String s) {
-
-        /* TODO: SEND TOKEN SERVER */
-        super.onNewToken(s);
-    }
-
     /**
      * Called when message is received.
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
