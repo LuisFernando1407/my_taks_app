@@ -1,5 +1,6 @@
 package com.br.mytasksapp.util;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -26,9 +27,14 @@ import android.widget.TextView;
 
 import com.br.mytasksapp.MyTaskApplication;
 import com.br.mytasksapp.R;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.SyncHttpClient;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,6 +73,32 @@ public class Util {
 
         alertDialog.show();
     }
+
+    /*
+      Pode ser usado para fazer solicitações assíncronas de GET, POST, PUT e DELETE HTTP.
+      As solicitações podem ser feitas com parâmetros adicionais
+      passando uma instância RequestParams e as respostas podem ser manipuladas passando uma
+      instância ResponseHandlerInterface anonimamente substituída.
+   */
+    public static AsyncHttpClient createAsyncHttpClient()
+    {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setResponseTimeout(60000);
+        client.setConnectTimeout(60000);
+        return client;
+    }
+
+    /*
+        Processa solicitações http no modo síncrono, para que seu encadeamento
+        de chamadas seja bloqueado em cada solicitação.
+    */
+    public static SyncHttpClient createSyncHttpClient(){
+        SyncHttpClient client = new SyncHttpClient();
+        client.setResponseTimeout(60000);
+        client.setConnectTimeout(60000);
+        return  client;
+    }
+
 
     public static Boolean containsPref(String key){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyTaskApplication.getInstance());
@@ -138,6 +170,18 @@ public class Util {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString("API_TOKEN", token);
         editor.apply();
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String convertDateFormat(String date, String initDateFormat, String endDateFormat){
+        try {
+            Date initDate = new SimpleDateFormat(initDateFormat).parse(date);
+            SimpleDateFormat formatter = new SimpleDateFormat(endDateFormat);
+            return formatter.format(initDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "Erro ao obter data";
+        }
     }
 
     public static String getApiToken() {

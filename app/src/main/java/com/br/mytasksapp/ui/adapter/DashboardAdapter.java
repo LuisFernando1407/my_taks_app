@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
@@ -18,21 +19,35 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.br.mytasksapp.Constants;
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.api.BaseJsonHandler;
 import com.br.mytasksapp.model.Task;
+import com.br.mytasksapp.ui.activity.HomeActivity;
 import com.br.mytasksapp.util.Util;
+import com.loopj.android.http.AsyncHttpClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.RecyclerViewHolder> {
 
     private ArrayList<Task> tasks;
+
+    private AdapterCallback callback;
 
     private Context context;
 
     public DashboardAdapter(Context context, ArrayList<Task> tasks){
         this.context = context;
         this.tasks = tasks;
+        this.callback = ((AdapterCallback) context);
     }
 
     @NonNull
@@ -47,7 +62,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
         final Task task = tasks.get(i);
 
         recyclerViewHolder.name.setText(Util.limitString(task.getName(), 7, "..."));
-        recyclerViewHolder.date.setText(task.getDate());
+        recyclerViewHolder.date.setText(Util.convertDateFormat(task.getDate(), "yyyy-MM-dd HH:mm", "dd/MM/yyyy HH:mm"));
 
         recyclerViewHolder.info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +74,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
         recyclerViewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alert(i, task.getName());
+                alert(i, task.getId(), task.getName());
             }
         });
 
@@ -103,14 +118,14 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
         }
     }
 
-    private void alert(final int position, String name){
+    private void alert(final int position, final String id, String name){
         final AlertDialog alertDialog =  new AlertDialog.Builder(context)
                 .setTitle("Atenção!")
                 .setMessage("Deseja realmente excluir a tarefa " + name + "?")
                 .setNegativeButton("Não", null)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        removeAt(position);
+                        removeAtServer(id, position);
                     }
                 }).create();
 
@@ -125,11 +140,20 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
         alertDialog.show();
     }
 
+    private void removeAtServer(String uid, final int position){
+        AsyncHttpClient client = Util.createAsyncHttpClient();
 
-    private void removeAt(int position){
-        tasks.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, tasks.size());
+        client.addHeader("Authorization", Constants.API.TYPE_REQUEST + Util.getApiToken());
+        client.delete(context, Constants.API.TASKS + "/" + uid, new BaseJsonHandler(context) {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                tasks.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, tasks.size());
+                callback.onMethodCallback();
+            }
+        });
     }
 
     @Override
@@ -137,6 +161,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
         return tasks.size();
     }
 
+    public interface AdapterCallback {
+        void onMethodCallback();
+    }
 
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView name;

@@ -48,6 +48,7 @@
         <activity android:name=".ui.activity.MyDataActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.error.ServerErrorActivity"/>
+        <activity android:name=".ui.activity.TaskActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

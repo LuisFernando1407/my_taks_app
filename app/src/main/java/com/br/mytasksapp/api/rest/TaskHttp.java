@@ -2,6 +2,7 @@ package com.br.mytasksapp.api.rest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 
 import com.br.mytasksapp.Constants;
@@ -30,10 +31,13 @@ public class TaskHttp extends AuthenticatedHttp {
         setupClient();
     }
 
-    public void getMyTasks() {
-        client.get(Constants.API.TASKS, new BaseJsonHandler(context) {
+    public void getMyTasks(final SwipeRefreshLayout swipeRefreshLayout, boolean isAnimation) {
+        client.get(Constants.API.TASKS, new BaseJsonHandler(context, isAnimation) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if(swipeRefreshLayout != null){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 listener.taskCompleted(response);
             }
         });

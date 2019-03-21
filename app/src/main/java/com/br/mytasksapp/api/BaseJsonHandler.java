@@ -23,11 +23,18 @@ import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
 public class BaseJsonHandler extends JsonHttpResponseHandler {
     private Context ctx;
     private Dialog loadingDialog;
-    /* TODO: Criar rota para refresh token */
     private UserHttp userHttp;
+    private boolean isAnimation = true;
 
     protected BaseJsonHandler(Context ctx) {
         this.ctx = ctx;
+        userHttp = new UserHttp(ctx);
+        loadingDialog = Util.loadingDialog(ctx);
+    }
+
+    protected BaseJsonHandler(Context ctx, boolean isAnimation) {
+        this.ctx = ctx;
+        this.isAnimation = isAnimation;
         userHttp = new UserHttp(ctx);
         loadingDialog = Util.loadingDialog(ctx);
     }
@@ -36,7 +43,9 @@ public class BaseJsonHandler extends JsonHttpResponseHandler {
     public void onStart() {
         super.onStart();
         try {
-            loadingDialog.show();
+            if(isAnimation) {
+                loadingDialog.show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +72,9 @@ public class BaseJsonHandler extends JsonHttpResponseHandler {
     @Override
     public void onFinish() {
         try {
-            loadingDialog.cancel();
+            if(isAnimation) {
+                loadingDialog.cancel();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,6 +89,8 @@ public class BaseJsonHandler extends JsonHttpResponseHandler {
             /* TODO: Refresh token */
             Toast.makeText(ctx, "Sua seção expirou! Faça novamente o login", Toast.LENGTH_LONG).show();
             Util.setApiToken(null);
+            Util.removePref("lastUser");
+            Util.removePref("first_access");
             ctx.startActivity(new Intent(ctx, LoginActivity.class));
         }
     }
@@ -87,7 +100,8 @@ public class BaseJsonHandler extends JsonHttpResponseHandler {
                 || throwable instanceof ConnectTimeoutException) {
             Intent intent = new Intent(ctx, ServerErrorActivity.class);
             intent.putExtra("message", "Tempo para conexão esgostado ou servidor indisponível, por favor tente mais tarde.");
-            ctx.startActivity(intent);        }
+            ctx.startActivity(intent);
+        }
 
         if(throwable instanceof ConnectException){
             Intent intent = new Intent(ctx, ServerErrorActivity.class);

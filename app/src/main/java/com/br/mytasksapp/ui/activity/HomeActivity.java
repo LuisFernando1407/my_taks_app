@@ -9,9 +9,12 @@ import android.support.annotation.UiThread;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,9 +30,12 @@ import com.br.mytasksapp.api.rest.TaskHttp;
 import com.br.mytasksapp.model.User;
 import com.br.mytasksapp.ui.adapter.DashboardAdapter;
 import com.br.mytasksapp.model.Task;
+import com.br.mytasksapp.ui.adapter.NoResultAdapter;
 import com.br.mytasksapp.util.Util;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,23 +43,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnTaskCompleted {
+        implements NavigationView.OnNavigationItemSelectedListener, OnTaskCompleted, DashboardAdapter.AdapterCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private Context context;
     private RecyclerView recyclerDash;
 
     private TaskHttp taskHttp;
 
-    /* Randoms */
-    private String[] itemsTasks = { "wine", "sniff", "passenger", "fax", "impartial", "protest",
-            "channel", "drop", "quirky", "yell", "telephone", "room", "giraffe", "tidy", "wistful", "expansion", "cover",
-            "fry", "warm", "rustic", "tongue",};
-    private String[] itemsDateTasks = { "21/04/2019 11:50", "25/04/2019 04:35", "06/04/2019 15:19", "15/04/2019 23:35", "22/04/2019 05:21", "19/04/2019 22:40", "21/04/2019 02:25",
-            "03/04/2019 10:35", "27/04/2019 04:22", "19/04/2019 18:05", "09/04/2019 16:44", "27/04/2019 03:08", "05/04/2019 20:55",
-            "29/04/2019 04:41", "04/04/2019 16:47", "26/04/2019 10:27", "23/04/2019 23:13", "09/04/2019 15:54", "19/04/2019 19:11", "30/04/2019 20:34", "11/04/2019 02:42"
-    };
+    private AppCompatButton new_task;
 
-    private Timer timer;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,6 @@ public class HomeActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        timer = new Timer();
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,6 +70,23 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         this.context = this;
+
+        new_task = findViewById(R.id.new_task);
+        mSwipeRefreshLayout = findViewById(R.id.swipe);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorAccent,
+                R.color.black_app,
+                R.color.gray_strong_app);
+
+
+        new_task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, TaskActivity.class));
+            }
+        });
 
         taskHttp = new TaskHttp(context, this);
 
@@ -95,16 +109,11 @@ public class HomeActivity extends AppCompatActivity
 
         recyclerDash = findViewById(R.id.recycler_dash);
 
-        /* Execute api */
-        taskHttp.getMyTasks();
-
-        DashboardAdapter dashboardAdapter = new DashboardAdapter(context, getTasks());
-        recyclerDash.setAdapter(dashboardAdapter);
-
-        RecyclerView.LayoutManager layout = new GridLayoutManager(context, 3);
-        recyclerDash.setLayoutManager(layout);
-
         setFontFamilyInMenu(navigationView);
+
+        /* Execute api */
+        taskHttp.getMyTasks(null, true);
+
     }
 
     private void setFontFamilyInMenu(NavigationView navigationView){
@@ -196,20 +205,51 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private ArrayList<Task> getTasks(){
+    @Override
+    public void taskCompleted(JSONObject results) {
         ArrayList<Task> tasks = new ArrayList<>();
 
-        int index = 0;
+        try {
+            JSONArray data = results.getJSONArray("tasks");
 
-        for(int i = 0; i < itemsTasks.length; i++) {
-            tasks.add(new Task(index++, itemsTasks[i], itemsDateTasks[i]));
+            if(data.length() > 0) {
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject object = data.getJSONObject(i);
+
+                    tasks.add(new Task(
+                            object.getString("_id"),
+                            object.getString("user_id"),
+                            object.getString("title"),
+                            object.getString("description"),
+                            object.getString("date"),
+                            object.getBoolean("is_notified")
+                    ));
+                }
+
+                DashboardAdapter dashboardAdapter = new DashboardAdapter(context, tasks);
+                recyclerDash.setAdapter(dashboardAdapter);
+
+                RecyclerView.LayoutManager layout = new GridLayoutManager(context, 3);
+                recyclerDash.setLayoutManager(layout);
+            }else{
+                NoResultAdapter noResultAdapter = new NoResultAdapter(context, "Nenhuma tarefa cadastrada", R.drawable.noresult, 100);
+                recyclerDash.setAdapter(noResultAdapter);
+
+                RecyclerView.LayoutManager layout = new LinearLayoutManager(context);
+                recyclerDash.setLayoutManager(layout);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        return tasks;
     }
 
     @Override
-    public void taskCompleted(JSONObject results) {
-        Log.d("JSON-d", results.toString());
+    public void onMethodCallback() {
+        taskHttp.getMyTasks(null, true);
+    }
+
+    @Override
+    public void onRefresh() {
+        taskHttp.getMyTasks(mSwipeRefreshLayout, false);
     }
 }
