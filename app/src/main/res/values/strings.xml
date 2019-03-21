@@ -11,4 +11,8 @@
     <string name="settings_greetings">Nesta tela você pode configurar todas as ações do App.</string>
     <string name="home_greetings">Bem vindo ao My Tasks!</string>
     <string name="app_nice_name">My Tasks</string>
+
+    <string name="title">Título é obrigatório"</string>
+    <string name="date">Data é obrigatório"</string>
+    <string name="hour">Hora é obrigatório"</string>
 </resources>

@@ -9,7 +9,9 @@ import com.br.mytasksapp.Constants;
 import com.br.mytasksapp.api.BaseJsonHandler;
 import com.br.mytasksapp.api.http.AuthenticatedHttp;
 import com.br.mytasksapp.api.interfaces.OnTaskCompleted;
+import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.ui.activity.HomeActivity;
+import com.br.mytasksapp.ui.activity.TaskActivity;
 import com.br.mytasksapp.util.Util;
 
 import org.json.JSONException;
@@ -44,6 +46,38 @@ public class TaskHttp extends AuthenticatedHttp {
 
     }
 
+    public void registerTask(JSONObject params){
+        StringEntity entity = null;
+
+        try {
+            entity = new StringEntity(params.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        client.post(context, Constants.API.TASKS, entity, Constants.API.CONTENT_TYPE, new BaseJsonHandler(context) {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(context, "Tarefa cadastrada com sucesso", Toast.LENGTH_LONG).show();
+                context.startActivity(new Intent(context, HomeActivity.class));
+                ((TaskActivity) context).finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                if(statusCode == 400){
+                    try {
+                        Util.alert(context, "Atenção!", errorResponse.getString("error"), null, false);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     public void updateTask(String uid, JSONObject params){
 
         StringEntity entity = null;
@@ -54,7 +88,7 @@ public class TaskHttp extends AuthenticatedHttp {
             e.printStackTrace();
         }
 
-        client.put(ctx, Constants.API.TASKS + "/" + uid, entity, Constants.API.CONTENT_TYPE, new BaseJsonHandler(context) {
+        client.put(context, Constants.API.TASKS + "/" + uid, entity, Constants.API.CONTENT_TYPE, new BaseJsonHandler(context) {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

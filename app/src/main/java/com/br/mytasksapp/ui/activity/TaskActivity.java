@@ -15,7 +15,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.br.mytasksapp.R;
 import com.br.mytasksapp.api.interfaces.OnTaskCompleted;
@@ -28,13 +27,23 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
+
 public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
 
     private static final int DRAWABLE_RIGHT = 2;
-    
+
+    @NotEmpty(messageId = R.string.title)
     private EditText name;
+
     private EditText description;
+
+    @NotEmpty(messageId = R.string.date)
     private EditText date;
+
+    @NotEmpty(messageId = R.string.hour)
     private EditText hour;
 
     private AppCompatButton salve;
@@ -115,11 +124,7 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
                     salve.setText("Salvar");
                     cancel.setVisibility(View.VISIBLE);
                 }else{
-                    if(salve.getText().toString().equalsIgnoreCase("salvar")){
-                        Toast.makeText(context, "Salvar edite", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(context, "Cadastrar", Toast.LENGTH_SHORT).show();
-                    }
+                    validate();
                 }
             }
         });
@@ -132,6 +137,31 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
                 cancel.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void validate() {
+        boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(context, true));
+
+        if (isValid) {
+            JSONObject params = new JSONObject();
+
+            String dateNow = date.getText().toString() + " " + hour.getText().toString();
+            String dateFinal = Util.convertDateFormat(dateNow, "dd/MM/yyyy HH:mm", "yyyy-MM-dd HH:mm");
+
+            try {
+                params.put("title", name.getText().toString());
+                params.put("description", description.getText().toString().isEmpty() ? null : description.getText().toString());
+                params.put("date", dateFinal);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(salve.getText().toString().equalsIgnoreCase("salvar")){
+                taskHttp.updateTask(uid, params);
+            }else{
+                taskHttp.registerTask(params);
+            }
+        }
     }
 
     private void enableFields(boolean status){
