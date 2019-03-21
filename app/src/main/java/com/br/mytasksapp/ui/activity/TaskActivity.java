@@ -18,20 +18,27 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.api.interfaces.OnTaskCompleted;
+import com.br.mytasksapp.api.rest.TaskHttp;
 import com.br.mytasksapp.util.Mask;
+import com.br.mytasksapp.util.Util;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
 
     private static final int DRAWABLE_RIGHT = 2;
-
+    
     private EditText name;
     private EditText description;
     private EditText date;
     private EditText hour;
 
     private AppCompatButton salve;
+    private AppCompatButton cancel;
 
     private Context context;
 
@@ -48,6 +55,8 @@ public class TaskActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView title;
+
+    private TaskHttp taskHttp;
 
 
     @Override
@@ -75,7 +84,11 @@ public class TaskActivity extends AppCompatActivity {
         hour = findViewById(R.id.hour);
         hour.addTextChangedListener(Mask.insert(hour, Mask.MaskType.HOUR));
 
+        cancel = findViewById(R.id.cancel);
+
         this.context = this;
+
+        taskHttp = new TaskHttp(context, this);
 
         setClickDateTouchDrawable();
         setClickHourTouchDrawable();
@@ -83,13 +96,49 @@ public class TaskActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             uid = bundle.getString("uid");
+
             title.setText("Visualizar Tarefa");
+
+            salve.setText("Editar");
+
+            enableFields(false);
+
+            taskHttp.getTaskById(uid);
+
         }
 
+        salve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(salve.getText().toString().equalsIgnoreCase("editar")){
+                    enableFields(true);
+                    salve.setText("Salvar");
+                    cancel.setVisibility(View.VISIBLE);
+                }else{
+                    if(salve.getText().toString().equalsIgnoreCase("salvar")){
+                        Toast.makeText(context, "Salvar edite", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "Cadastrar", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableFields(false);
+                salve.setText("Editar");
+                cancel.setVisibility(View.GONE);
+            }
+        });
     }
 
-    private void getDetailsTaskById(String uid){
-
+    private void enableFields(boolean status){
+        name.setEnabled(status);
+        description.setEnabled(status);
+        date.setEnabled(status);
+        hour.setEnabled(status);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -151,4 +200,23 @@ public class TaskActivity extends AppCompatActivity {
         }, mHour, mMinute, true).show();
     }
 
+    @Override
+    public void taskCompleted(JSONObject results) {
+        try {
+            JSONObject task = results.getJSONObject("task");
+            name.setText(task.getString("title"));
+
+            String descriptionText = !task.getString("description").equalsIgnoreCase("null") ?
+                    task.getString("description") : "";
+
+            description.setText(descriptionText);
+
+            date.setText(Util.convertDateFormat(task.getString("date"), "yyyy-MM-dd HH:mm", "dd/MM/yyyy"));
+
+            hour.setText(Util.convertDateFormat(task.getString("date"), "yyyy-MM-dd HH:mm", "HH:mm"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

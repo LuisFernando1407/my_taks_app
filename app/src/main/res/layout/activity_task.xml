@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="NOVA TAREFA"
+                android:textAllCaps="true"
                 android:layout_marginRight="55dp"
                 android:gravity="center"
                 android:textColor="@color/black_app"
@@ -37,129 +38,151 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"/>
 
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <TextView
+            <LinearLayout
                 android:layout_marginTop="20dp"
-                android:textSize="14dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="@color/black_app"
-                android:text="Título"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <EditText
-                android:layout_marginTop="5dp"
-                android:id="@+id/name"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:fontFamily="@font/montserrat"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:background="@drawable/bg_edit_text_gray"
-                android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:textSize="14dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/black_app"
+                        android:text="Título"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:textSize="14dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="@color/black_app"
-                android:text="Descrição (Opcional)"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/name"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:fontFamily="@font/montserrat"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:background="@drawable/bg_edit_text_gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" />
 
-            <EditText
-                android:layout_marginTop="5dp"
-                android:id="@+id/description"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:fontFamily="@font/montserrat"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:background="@drawable/bg_edit_text_gray"
-                android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:textSize="14dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/black_app"
+                        android:text="Descrição (Opcional)"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:textSize="14dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="@color/black_app"
-                android:text="Data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/description"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:fontFamily="@font/montserrat"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:background="@drawable/bg_edit_text_gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" />
 
-            <EditText
-                android:layout_marginTop="5dp"
-                android:id="@+id/date"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:fontFamily="@font/montserrat"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:drawableEnd="@drawable/ic_date"
-                android:background="@drawable/bg_edit_text_gray"
-                android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:textSize="14dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/black_app"
+                        android:text="Data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/date"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:fontFamily="@font/montserrat"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:drawableEnd="@drawable/ic_date"
+                        android:background="@drawable/bg_edit_text_gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" />
 
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:textSize="14dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="@color/black_app"
-                android:text="Hora"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:textSize="14dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/black_app"
+                        android:text="Hora"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <EditText
-                android:layout_marginTop="5dp"
-                android:id="@+id/hour"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:drawableEnd="@drawable/ic_access_time"
-                android:fontFamily="@font/montserrat"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:background="@drawable/bg_edit_text_gray"
-                android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/hour"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:drawableEnd="@drawable/ic_access_time"
+                        android:fontFamily="@font/montserrat"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:background="@drawable/bg_edit_text_gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" />
 
-        </LinearLayout>
+                </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/salve"
-                android:textColor="@color/black_app"
-                android:text="Cadastrar"
-                android:textStyle="bold"
-                android:fontFamily="@font/montserrat"
-                android:background="@drawable/bg_button_success"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/salve"
+                        android:textColor="@color/black_app"
+                        android:text="Cadastrar"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:background="@drawable/bg_button_success"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:layout_marginTop="30dp"
+                        android:id="@+id/cancel"
+                        android:visibility="gone"
+                        android:textColor="@color/black_app"
+                        android:text="Cancelar"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:background="@drawable/bg_button_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

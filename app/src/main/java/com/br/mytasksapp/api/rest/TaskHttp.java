@@ -44,6 +44,47 @@ public class TaskHttp extends AuthenticatedHttp {
 
     }
 
+    public void updateTask(String uid, JSONObject params){
+
+        StringEntity entity = null;
+
+        try {
+            entity = new StringEntity(params.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        client.put(ctx, Constants.API.TASKS + "/" + uid, entity, Constants.API.CONTENT_TYPE, new BaseJsonHandler(context) {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                listener.taskCompleted(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                if(statusCode == 400){
+                    try {
+                        Util.alert(context, "Atenção!", errorResponse.getString("error"), null, false);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public void getTaskById(String uid) {
+        client.get(Constants.API.TASKS + "/" + uid, new BaseJsonHandler(context) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                listener.taskCompleted(response);
+            }
+        });
+
+    }
+
     public void setFCMToken(boolean isAccepted){
         JSONObject params = new JSONObject();
         StringEntity entity = null;

@@ -24,6 +24,7 @@ import com.br.mytasksapp.R;
 import com.br.mytasksapp.api.BaseJsonHandler;
 import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.ui.activity.HomeActivity;
+import com.br.mytasksapp.ui.activity.TaskActivity;
 import com.br.mytasksapp.util.Util;
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -67,7 +68,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
         recyclerViewHolder.info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, task.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, TaskActivity.class);
+                intent.putExtra("uid", task.getId());
+                context.startActivity(intent);
             }
         });
 
@@ -77,45 +80,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Recy
                 alert(i, task.getId(), task.getName());
             }
         });
-
-        recyclerViewHolder.info.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PopupMenu popup = new PopupMenu(context, recyclerViewHolder.info);
-
-                popup.getMenuInflater()
-                        .inflate(R.menu.options_home_menu, popup.getMenu());
-
-                setFontFamilyInMenu(popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Util.alert(context, item.getTitle().toString(), item.getTitle() + " o item " + task.getName() + "?", null, true);
-                        return true;
-                    }
-                });
-
-                popup.show(); //showing popup menu
-                return true;
-            }
-        });
-    }
-
-    private void setFontFamilyInMenu(Menu m){
-        for (int i = 0; i < m.size(); i++) {
-            MenuItem mi = m.getItem(i);
-
-            //for applying a font to subMenu ...
-            SubMenu subMenu = mi.getSubMenu();
-            if (subMenu != null && subMenu.size() > 0) {
-                for (int j = 0; j < subMenu.size(); j++) {
-                    MenuItem subMenuItem = subMenu.getItem(j);
-                    Util.applyFontToMenuItem(context, subMenuItem);
-                }
-            }
-            //the method we have create in activity
-            Util.applyFontToMenuItem(context, mi);
-        }
     }
 
     private void alert(final int position, final String id, String name){
