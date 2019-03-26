@@ -33,6 +33,12 @@ public class TaskHttp extends AuthenticatedHttp {
         setupClient();
     }
 
+    public TaskHttp(Context context){
+        this.context = context;
+
+        setupClient();
+    }
+
     public void getMyTasks(final SwipeRefreshLayout swipeRefreshLayout, boolean isAnimation) {
         client.get(Constants.API.TASKS, new BaseJsonHandler(context, isAnimation) {
             @Override
@@ -92,6 +98,7 @@ public class TaskHttp extends AuthenticatedHttp {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(context, "Tarefa atualizada com sucesso", Toast.LENGTH_LONG).show();
                 listener.taskCompleted(response);
             }
 
@@ -117,6 +124,15 @@ public class TaskHttp extends AuthenticatedHttp {
             }
         });
 
+    }
+
+    public void getFCMTokenStatus(){
+        client.get(Constants.API.TASKS + "/notification/status", new BaseJsonHandler(context) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                listener.taskCompleted(response);
+            }
+        });
     }
 
     public void setFCMToken(boolean isAccepted){

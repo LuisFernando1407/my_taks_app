@@ -7,6 +7,16 @@
             android:id="@+id/nav_update_user"
             android:icon="@null"
             android:title="Meus dados" />
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@null"
+            android:title="Configurações" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@null"
+            android:title="Sobre" />
     </group>
 
     <group android:checkableBehavior="single">

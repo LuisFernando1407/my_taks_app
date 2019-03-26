@@ -1,11 +1,13 @@
 package com.br.mytasksapp.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.br.mytasksapp.R;
@@ -19,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private AppCompatButton enter;
     private AppCompatButton register;
+    private TextView forgot_pass;
 
     private UserHttp userHttp;
     private Context context;
@@ -33,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         enter = findViewById(R.id.enter);
         register = findViewById(R.id.register);
+        forgot_pass = findViewById(R.id.forgot_pass);
 
         this.context = this;
 
@@ -60,6 +64,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, RegisterActivity.class));
+            }
+        });
+
+        forgot_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, ForgotPassActivity.class));
+            }
+        });
+
     }
 
     @Override

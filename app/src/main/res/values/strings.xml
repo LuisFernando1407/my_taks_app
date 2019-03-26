@@ -2,11 +2,6 @@
     <string name="app_name">MyTasks</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Luís Fernando</string>
-    <string name="nav_header_subtitle">luis1407@live.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    
     
     <string name="settings_greetings">Nesta tela você pode configurar todas as ações do App.</string>
     <string name="home_greetings">Bem vindo ao My Tasks!</string>
@@ -15,4 +10,20 @@
     <string name="title">Título é obrigatório"</string>
     <string name="date">Data é obrigatório"</string>
     <string name="hour">Hora é obrigatório"</string>
+
+    <!-- Register -->
+    <string name="name">Nome é obrigatório"</string>
+    <string name="email">Informe um e-mail válido"</string>
+    <string name="pass">Senha é obrigatório"</string>
+    <string name="pass_min">A senha deve conter pelo menos 6 caracteres"</string>
+
+    <!-- Alter pass -->
+    <string name="old_pass">A senha atual é obrigatório"</string>
+    <string name="new_pass_min">A nova senha deve conter pelo menos 6 caracteres"</string>
+
+    <string name="terms">Aceito os <u>termos de uso</u></string>
+
+    <string name="lorem">
+        Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+    </string>
 </resources>

@@ -7,10 +7,7 @@ public class Constants {
 
         public static final String TYPE_REQUEST = "Bearer ";
 
-        /* Homologação */
-        /* UFC = 172.18.104.138 */
-        /* ME = */
-        private static final String BASE_APP = "http://192.168.0.104:3000";
+        private static final String BASE_APP = IPs.ME_HOUSE_QUIXADA;
 
         private static final String BASE_API = BASE_APP + "/";
 
@@ -22,5 +19,17 @@ public class Constants {
 
         public static final String TASKS = USER + "/tasks";
 
+        public static final String FORGOT_PASS = BASE_API + "auth/forgot_password";
+
+        public static final String REFRESH_PASS = BASE_API + "auth/refresh_password/";
+
+    }
+
+    private class IPs {
+        private static final String UFC = "http://172.18.104.138:3000";
+
+        private static final String ME_HOUSE_ARACOIABA = "http://192.168.0.104:3000";
+
+        private static final String ME_HOUSE_QUIXADA = "http://192.168.1.4:3000";
     }
 }

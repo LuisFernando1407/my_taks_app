@@ -15,7 +15,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.ui.activity.HomeActivity;
+import com.br.mytasksapp.ui.activity.TaskActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -36,8 +38,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // message, here is where that should be initiated. See sendNotification method below.
         Map<String, String> data = remoteMessage.getData();
 
-        Log.d("TAKS-d", data.get("id"));
-
         sendNotification(data);
     }
 
@@ -50,7 +50,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         /* TODO: Details tasks */
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, TaskActivity.class);
+        intent.putExtra("uid", data.get("id"));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 

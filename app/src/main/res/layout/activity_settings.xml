@@ -71,24 +71,8 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_marginTop="20dp"
                 android:id="@+id/recycler_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:layout_marginTop="50dp"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/salve"
-                    android:textColor="@color/black_app"
-                    android:text="Salvar"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/montserrat"
-                    android:background="@drawable/bg_button_success"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_marginTop="30dp"

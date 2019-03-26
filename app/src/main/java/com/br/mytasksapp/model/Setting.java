@@ -2,9 +2,11 @@ package com.br.mytasksapp.model;
 
 public class Setting {
     private String action;
+    private boolean isActive;
 
-    public Setting(String action){
+    public Setting(String action, boolean isActive) {
         this.action = action;
+        this.isActive = isActive;
     }
 
     public String getAction() {
@@ -13,5 +15,13 @@ public class Setting {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

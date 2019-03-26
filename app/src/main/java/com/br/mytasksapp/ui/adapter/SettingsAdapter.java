@@ -15,7 +15,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.api.rest.TaskHttp;
 import com.br.mytasksapp.model.Setting;
+import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.util.Util;
 
 import java.util.ArrayList;
@@ -25,11 +27,13 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Recycl
     private ArrayList<Setting> settings;
     private ArrayList<Setting> settingsFiltered;
     private Context context;
+    private TaskHttp taskHttp;
 
     public SettingsAdapter(Context context, ArrayList<Setting> settings){
         this.context = context;
         this.settings = settings;
         this.settingsFiltered = settings;
+        taskHttp = new TaskHttp(context);
     }
 
     @NonNull
@@ -45,26 +49,17 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Recycl
 
         recyclerViewHolder.action.setText(setting.getAction());
 
+        recyclerViewHolder.toggle_action.setChecked(setting.isActive());
+
         recyclerViewHolder.toggle_action.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(!setting.getAction().equalsIgnoreCase("Som notification")){
-                    String message;
-
-                    /* TODO: REQUEST NOTIFICATION */
+                if(!setting.getAction().equalsIgnoreCase("notificacoes")){
                     if(isChecked){
-                        message = setting.getAction() + " ativado";
-                    }else{
-                        message = setting.getAction() + " desativado";
-                    }
+                        taskHttp.setFCMToken(true);
 
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                }else{
-                    MediaPlayer mp = loadSound();
-                    if(isChecked) {
-                        mp.start();
                     }else{
-                        mp.stop();
+                        taskHttp.setFCMToken(false);
                     }
                 }
             }
@@ -73,10 +68,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.Recycl
         if(getItemCount() - 1 == i && i > 1){
             recyclerViewHolder.divider.setVisibility(View.GONE);
         }
-    }
-
-    private MediaPlayer loadSound(){
-        return MediaPlayer.create(context, R.raw.notify_system_generic);
     }
 
     @Override

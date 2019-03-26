@@ -13,7 +13,7 @@ public class Mask {
 
     private static final String CNPJMask = "##.###.###/####-##";
     private static final String CPFMask = "###.###.###-##";
-    private static final String TelMask = "(##) ####-####";
+    private static final String TelMask = "(##) #####-####";
     private static final String HoraMask = "##:##";
     private static final String CEPMask = "#####-###";
     private static final String BIRTHDAYMask = "##/##/####";

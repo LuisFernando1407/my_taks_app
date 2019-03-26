@@ -49,6 +49,10 @@
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.error.ServerErrorActivity"/>
         <activity android:name=".ui.activity.TaskActivity"/>
+        <activity android:name=".ui.activity.RegisterActivity"/>
+        <activity android:name=".ui.activity.ForgotPassActivity"/>
+        <activity android:name=".ui.activity.TermsActivity"/>
+        <activity android:name=".ui.activity.AlterPassActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

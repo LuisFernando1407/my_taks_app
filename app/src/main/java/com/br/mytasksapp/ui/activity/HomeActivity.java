@@ -54,6 +54,11 @@ public class HomeActivity extends AppCompatActivity
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private TextView name;
+    private TextView email;
+
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,10 +104,10 @@ public class HomeActivity extends AppCompatActivity
 
         View headerLayout = navigationView.getHeaderView(0);
 
-        User user = new Gson().fromJson(Util.getPref("lastUser", null), User.class);
+        user = new Gson().fromJson(Util.getPref("lastUser", null), User.class);
 
-        TextView name = headerLayout.findViewById(R.id.name);
-        TextView email = headerLayout.findViewById(R.id.email);
+        name = headerLayout.findViewById(R.id.name);
+        email = headerLayout.findViewById(R.id.email);
 
         name.setText(user.getName());
         email.setText(user.getEmail());
@@ -170,24 +175,6 @@ public class HomeActivity extends AppCompatActivity
         alertDialog.show();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(context, SettingsActivity.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -196,7 +183,14 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_update_user) {
             startActivity(new Intent(context, MyDataActivity.class));
-        } else if (id == R.id.nav_exit) {
+        }else if(id == R.id.nav_setting){
+            startActivity(new Intent(context, SettingsActivity.class));
+        } else if(id == R.id.nav_about){
+            Intent intent = new Intent(context, TermsActivity.class);
+            intent.putExtra("isAbout", "true");
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_exit) {
             exitAlert();
         }
 
@@ -241,6 +235,16 @@ public class HomeActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /* Refresh */
+        user = new Gson().fromJson(Util.getPref("lastUser", null), User.class);
+
+        name.setText(Util.limitString(user.getName(), 35, "..."));
+        email.setText(user.getEmail());
     }
 
     @Override

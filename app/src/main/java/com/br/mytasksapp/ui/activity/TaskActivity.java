@@ -5,12 +5,14 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,6 +36,8 @@ import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
 
     private static final int DRAWABLE_RIGHT = 2;
+
+    private ConstraintLayout root;
 
     @NotEmpty(messageId = R.string.title)
     private EditText name;
@@ -67,6 +71,7 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
 
     private TaskHttp taskHttp;
 
+    private CheckBox isNotified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +83,16 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
 
         salve = findViewById(R.id.salve);
 
+        isNotified = findViewById(R.id.isNotified);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
+        root = findViewById(R.id.root);
 
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);
@@ -109,8 +118,6 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
             title.setText("Visualizar Tarefa");
 
             salve.setText("Editar");
-
-            enableFields(false);
 
             taskHttp.getTaskById(uid);
 
@@ -152,6 +159,7 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
                 params.put("title", name.getText().toString());
                 params.put("description", description.getText().toString().isEmpty() ? null : description.getText().toString());
                 params.put("date", dateFinal);
+                params.put("is_notified", !isNotified.isChecked());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -212,20 +220,25 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
                 int newMonth = (month+1);
 
                 String setZeroMonth = newMonth >= 10 ? String.valueOf(newMonth) : "0" + newMonth;
-                String dateFormat = dayOfMonth + "/" + setZeroMonth + "/" + year;
+                String setZeroDay = dayOfMonth >= 10 ? String.valueOf(dayOfMonth) : "0" + dayOfMonth;
+                String dateFormat = setZeroDay + "/" + setZeroMonth + "/" + year;
+                String dateFinal = dateFormat + 1; //+1 spacing
 
-                date.setText(dateFormat);
+                date.setText(dateFinal);
             }
         }, mYear, mMonth, mDay).show();
     }
-
 
     private void dialogHour(){
         new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                String hourFormat = hourOfDay + ":" + minute;
-                hour.setText(hourFormat);
+                String setZeroOfHourDay = hourOfDay >= 10 ? String.valueOf(hourOfDay) : "0" + hourOfDay;
+                String setZeroOfMinute = minute >= 10 ? String.valueOf(minute) : "0" + minute;
+                String hourFormat = setZeroOfHourDay + ":" + setZeroOfMinute;
+                String hourFinal = hourFormat + 1; //+1 spacing
+
+                hour.setText(hourFinal);
             }
         }, mHour, mMinute, true).show();
     }
@@ -235,18 +248,44 @@ public class TaskActivity extends AppCompatActivity implements OnTaskCompleted {
         try {
             JSONObject task = results.getJSONObject("task");
             name.setText(task.getString("title"));
+            name.clearFocus();
 
             String descriptionText = !task.getString("description").equalsIgnoreCase("null") ?
                     task.getString("description") : "";
 
             description.setText(descriptionText);
+            description.clearFocus();
 
-            date.setText(Util.convertDateFormat(task.getString("date"), "yyyy-MM-dd HH:mm", "dd/MM/yyyy"));
+            String dateFinal = Util.convertDateFormat(task.getString("date"), "yyyy-MM-dd HH:mm", "dd/MM/yyyy") + 1; //+1 spacing
 
-            hour.setText(Util.convertDateFormat(task.getString("date"), "yyyy-MM-dd HH:mm", "HH:mm"));
+            date.setText(dateFinal);
+            date.clearFocus();
+
+            String hourFinal = Util.convertDateFormat(task.getString("date"), "yyyy-MM-dd HH:mm", "HH:mm") + 1; // +1 spacing
+
+            hour.setText(hourFinal);
+            hour.clearFocus();
+
+            boolean isNotifiedBool = task.getBoolean("is_notified");
+
+            isNotified.setChecked(!isNotifiedBool);
+
+            if(isNotifiedBool){
+                snackMessage();
+            }
+
+            /* State init */
+            enableFields(false);
+            salve.setText("Editar");
+            cancel.setVisibility(View.GONE);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+    private void snackMessage(){
+        Snackbar.make(root, "Tarefa já notificada", Snackbar.LENGTH_LONG).show();
+    }
+
 }

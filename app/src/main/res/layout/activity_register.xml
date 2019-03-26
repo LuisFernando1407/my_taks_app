@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NOVA TAREFA"
+                android:text="CADASTRO"
                 android:textAllCaps="true"
                 android:layout_marginRight="55dp"
                 android:gravity="center"
@@ -62,7 +62,7 @@
                         android:paddingEnd="10dp"
                         android:fontFamily="@font/montserrat"
                         android:textColor="@color/black_app"
-                        android:text="Título"
+                        android:text="Nome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -85,21 +85,16 @@
                         android:paddingEnd="10dp"
                         android:fontFamily="@font/montserrat"
                         android:textColor="@color/black_app"
-                        android:text="Descrição (Opcional)"
+                        android:text="Sexo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <EditText
+                    <Spinner
+                        android:id="@+id/sex"
                         android:layout_marginTop="5dp"
-                        android:id="@+id/description"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:fontFamily="@font/montserrat"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
                         android:background="@drawable/bg_edit_text_gray"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp" />
+                        android:layout_height="45dp"/>
 
                     <TextView
                         android:layout_marginTop="20dp"
@@ -108,23 +103,76 @@
                         android:paddingEnd="10dp"
                         android:fontFamily="@font/montserrat"
                         android:textColor="@color/black_app"
-                        android:text="Data"
+                        android:text="Qual sua área de atuação?"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+
+                    <RadioGroup
+                        android:layout_marginTop="15dp"
+                        android:id="@+id/account_reason"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:id="@+id/student"
+                            android:text="Estudante"
+                            android:checked="true"
+                            android:textColor="@color/black_app"
+                            android:fontFamily="@font/montserrat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <RadioButton
+                            android:layout_marginLeft="40dp"
+                            android:id="@+id/professional"
+                            android:text="Profissional"
+                            android:textColor="@color/black_app"
+                            android:fontFamily="@font/montserrat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RadioGroup>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_marginTop="20dp"
+                            android:textSize="14dp"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:fontFamily="@font/montserrat"
+                            android:textColor="@color/black_app"
+                            android:text="Telefone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                        <TextView
+                            android:layout_marginTop="20dp"
+                            android:textSize="14dp"
+                            android:paddingEnd="5dp"
+                            android:fontFamily="@font/montserrat"
+                            android:textColor="@color/gray_strong_app"
+                            android:text="(Opcional)"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
                     <EditText
                         android:layout_marginTop="5dp"
-                        android:id="@+id/date"
+                        android:id="@+id/phone"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:fontFamily="@font/montserrat"
                         android:imeOptions="actionNext"
                         android:inputType="number"
-                        android:drawableEnd="@drawable/ic_date"
+                        android:fontFamily="@font/montserrat"
                         android:background="@drawable/bg_edit_text_gray"
                         android:layout_width="match_parent"
                         android:layout_height="45dp" />
-
 
                     <TextView
                         android:layout_marginTop="20dp"
@@ -133,62 +181,90 @@
                         android:paddingEnd="10dp"
                         android:fontFamily="@font/montserrat"
                         android:textColor="@color/black_app"
-                        android:text="Hora"
+                        android:text="E-mail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                     <EditText
                         android:layout_marginTop="5dp"
-                        android:id="@+id/hour"
+                        android:id="@+id/email"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
-                        android:drawableEnd="@drawable/ic_access_time"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
                         android:fontFamily="@font/montserrat"
+                        android:background="@drawable/bg_edit_text_gray"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp" />
+
+                    <TextView
+                        android:layout_marginTop="20dp"
+                        android:textSize="14dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="10dp"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="@color/black_app"
+                        android:text="Senha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/pass"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
                         android:imeOptions="actionDone"
-                        android:inputType="number"
+                        android:inputType="textPassword"
+                        android:fontFamily="@font/montserrat"
                         android:background="@drawable/bg_edit_text_gray"
                         android:layout_width="match_parent"
                         android:layout_height="45dp" />
 
-                    <CheckBox
-                        android:id="@+id/isNotified"
-                        android:checked="false"
-                        android:layout_marginTop="20dp"
-                        android:textSize="14dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Receber notificação"
+
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:layout_marginTop="15dp"
+                            android:textSize="14dp"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
+                            android:checked="true"
+                            android:id="@+id/terms"
+                            android:textColor="@color/black_app"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_marginTop="15dp"
+                            android:textSize="14dp"
+                            android:paddingEnd="10dp"
+                            android:id="@+id/viewTerms"
+                            android:fontFamily="@font/montserrat"
+                            android:textColor="@color/black_app"
+                            android:text="@string/terms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="30dp"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/salve"
+                        android:id="@+id/register"
                         android:textColor="@color/black_app"
                         android:text="Cadastrar"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
                         android:background="@drawable/bg_button_success"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:layout_marginTop="30dp"
-                        android:id="@+id/cancel"
-                        android:visibility="gone"
-                        android:textColor="@color/black_app"
-                        android:text="Cancelar"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/montserrat"
-                        android:background="@drawable/bg_button_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

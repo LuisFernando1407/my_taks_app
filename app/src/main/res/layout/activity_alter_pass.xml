@@ -1,0 +1,114 @@
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:local="http://schemas.android.com/apk/res-auto"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            local:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alterar senha"
+                android:textAllCaps="true"
+                android:layout_marginRight="55dp"
+                android:gravity="center"
+                android:textColor="@color/black_app"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserrat"
+                android:textSize="16dp"
+                android:id="@+id/toolbar_title" />
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+        <LinearLayout
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textSize="14dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="10dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@color/black_app"
+                android:text="Senha atual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_marginTop="5dp"
+                android:id="@+id/old_pass"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:fontFamily="@font/montserrat"
+                android:background="@drawable/bg_edit_text_gray"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textSize="14dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="10dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@color/black_app"
+                android:text="Nova senha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_marginTop="5dp"
+                android:id="@+id/new_pass"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:fontFamily="@font/montserrat"
+                android:background="@drawable/bg_edit_text_gray"
+                android:layout_width="match_parent"
+                android:layout_height="45dp" />
+
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/send"
+                    android:textColor="@color/black_app"
+                    android:text="Alterar"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/montserrat"
+                    android:background="@drawable/bg_button_success"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
