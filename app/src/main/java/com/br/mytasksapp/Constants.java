@@ -7,7 +7,7 @@ public class Constants {
 
         public static final String TYPE_REQUEST = "Bearer ";
 
-        private static final String BASE_APP = IPs.ME_HOUSE_QUIXADA;
+        private static final String BASE_APP = IP.MY_HOUSE_QUIXADA;
 
         private static final String BASE_API = BASE_APP + "/";
 
@@ -25,11 +25,11 @@ public class Constants {
 
     }
 
-    private class IPs {
+    private class IP {
         private static final String UFC = "http://172.18.104.138:3000";
 
-        private static final String ME_HOUSE_ARACOIABA = "http://192.168.0.104:3000";
+        private static final String MY_HOUSE_ARACOIABA = "http://192.168.0.104:3000";
 
-        private static final String ME_HOUSE_QUIXADA = "http://192.168.1.4:3000";
+        private static final String MY_HOUSE_QUIXADA = "http://192.168.1.4:3000";
     }
 }
