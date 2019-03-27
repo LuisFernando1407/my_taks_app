@@ -49,7 +49,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification( Map<String, String> data) {
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
-        /* TODO: Details tasks */
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra("uid", data.get("id"));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

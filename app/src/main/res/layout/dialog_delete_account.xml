@@ -98,18 +98,18 @@
                             android:textStyle="bold"
                             android:fontFamily="@font/montserrat"
                             android:background="@drawable/bg_button_delete"
-                            android:layout_width="150dp"
+                            android:layout_width="110dp"
                             android:layout_height="40dp" />
 
                         <android.support.v7.widget.AppCompatButton
                             android:id="@+id/skip"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="35dp"
                             android:textColor="@color/black_app"
                             android:text="Não"
                             android:textStyle="bold"
                             android:fontFamily="@font/montserrat"
                             android:background="@drawable/bg_button_register"
-                            android:layout_width="150dp"
+                            android:layout_width="110dp"
                             android:layout_height="40dp" />
                     </LinearLayout>
                 </LinearLayout>

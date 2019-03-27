@@ -144,7 +144,6 @@ public class RegisterActivity extends AppCompatActivity implements OnUserComplet
 
     }
 
-
     @Override
     public void userCompleted(JSONObject results) {
         try {

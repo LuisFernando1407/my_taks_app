@@ -157,7 +157,8 @@ public class GeneralDataFragment extends Fragment implements OnUserCompleted {
                 professional.setChecked(true);
             }
 
-            String phoneFinal = user.getString("phone") + 1; //+1 spacing
+            String phoneFinal = !user.getString("phone").isEmpty() ?
+                    user.getString("phone") + 1 /* +1 spacing  */ : "";
 
             phone.setText(phoneFinal);
             phone.clearFocus();
