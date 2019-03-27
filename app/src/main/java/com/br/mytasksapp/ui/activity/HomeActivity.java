@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,7 +24,9 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.br.mytasksapp.Constants;
 import com.br.mytasksapp.R;
 import com.br.mytasksapp.api.interfaces.OnTaskCompleted;
 import com.br.mytasksapp.api.rest.TaskHttp;
@@ -32,15 +35,22 @@ import com.br.mytasksapp.ui.adapter.DashboardAdapter;
 import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.ui.adapter.NoResultAdapter;
 import com.br.mytasksapp.util.Util;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnTaskCompleted, DashboardAdapter.AdapterCallback, SwipeRefreshLayout.OnRefreshListener {
@@ -58,6 +68,7 @@ public class HomeActivity extends AppCompatActivity
     private TextView email;
 
     private User user;
+    private CircleImageView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +106,21 @@ public class HomeActivity extends AppCompatActivity
 
         taskHttp = new TaskHttp(context, this);
 
-        if(Util.getPref("first_access", null).equals("yes")){
-            taskHttp.setFCMToken(true);
-        }
+        FirebaseInstanceId.getInstance().getInstanceId()
+        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                   Toast.makeText(context, "Erro ao obter token do firebase para esse dispositivo", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                // Get new Instance ID token
+                if(Util.getPref("first_access", null).equals("yes")) {
+                    Util.setApiFCMToken(Objects.requireNonNull(task.getResult()).getToken());
+                    taskHttp.setFCMToken(true);
+                }
+            }
+        });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -108,9 +131,15 @@ public class HomeActivity extends AppCompatActivity
 
         name = headerLayout.findViewById(R.id.name);
         email = headerLayout.findViewById(R.id.email);
+        profile = headerLayout.findViewById(R.id.profile);
 
         name.setText(user.getName());
         email.setText(user.getEmail());
+
+        if(user.getAvatar() != null){
+            String url = Constants.API.FILES + user.getAvatar();
+            Picasso.get().load(url).error(R.drawable.ic_user_default).into(profile);
+        }
 
         recyclerDash = findViewById(R.id.recycler_dash);
 
@@ -159,6 +188,8 @@ public class HomeActivity extends AppCompatActivity
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Util.setApiToken(null);
+                        Util.removePref("lastUser");
+                        Util.removePref("is_accepted");
                         startActivity(new Intent(context, LoginActivity.class));
                         finish();
                     }
@@ -245,6 +276,11 @@ public class HomeActivity extends AppCompatActivity
 
         name.setText(Util.limitString(user.getName(), 35, "..."));
         email.setText(user.getEmail());
+
+        if(user.getAvatar() != null){
+            Picasso.get().load(Constants.API.FILES + user.getAvatar())
+                    .error(R.drawable.ic_user_default).into(profile);
+        }
     }
 
     @Override

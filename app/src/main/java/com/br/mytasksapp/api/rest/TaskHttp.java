@@ -142,6 +142,7 @@ public class TaskHttp extends AuthenticatedHttp {
         try {
             params.put("fcm_token", Util.getApiFCMToken());
             params.put("is_accepted", isAccepted);
+            Util.putPref("is_accepted", String.valueOf(isAccepted));
 
             entity = new StringEntity(params.toString());
         } catch (JSONException | UnsupportedEncodingException e) {

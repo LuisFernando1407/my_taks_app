@@ -12,6 +12,7 @@ import com.br.mytasksapp.ui.activity.HomeActivity;
 import com.br.mytasksapp.ui.activity.LoginActivity;
 import com.br.mytasksapp.ui.activity.SettingsActivity;
 import com.br.mytasksapp.util.Util;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,6 +90,7 @@ public class UserHttp extends AuthenticatedHttp {
                 try {
                     Util.putPref("lastUser", response.getJSONObject("user").toString());
                     Util.setApiToken(response.getString("token"));
+                    Util.putPref("first_access", "yes");
                     ctx.startActivity(new Intent(ctx, HomeActivity.class));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -117,16 +119,9 @@ public class UserHttp extends AuthenticatedHttp {
         });
     }
 
-    public void update(JSONObject params){
-        StringEntity entity = null;
+    public void update(RequestParams params){
 
-        try {
-            entity = new StringEntity(params.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        client.put(ctx, Constants.API.USER, entity, Constants.API.CONTENT_TYPE, new BaseJsonHandler(ctx) {
+        client.put(ctx, Constants.API.USER, params, new BaseJsonHandler(ctx) {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(ctx, "Usuário atualizado com sucesso", Toast.LENGTH_LONG).show();
@@ -142,6 +137,13 @@ public class UserHttp extends AuthenticatedHttp {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                if(statusCode == 500){
+                    Util.alert(ctx, "Atenção!", "Image too large, only image with up to 1MB allowed", null, false);
                 }
             }
         });

@@ -23,6 +23,8 @@ public class Constants {
 
         public static final String REFRESH_PASS = BASE_API + "auth/refresh_password/";
 
+        public static final String FILES = BASE_API + "files/";
+
     }
 
     private class IP {

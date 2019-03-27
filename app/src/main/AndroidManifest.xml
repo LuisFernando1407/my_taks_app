@@ -3,8 +3,16 @@
     package="com.br.mytasksapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".MyTaskApplication"
@@ -28,12 +36,6 @@
             </intent-filter>
         </service>
 
-        <service android:name=".fcm.MyFirebaseInstanceService" android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_logo" />
@@ -53,6 +55,16 @@
         <activity android:name=".ui.activity.ForgotPassActivity"/>
         <activity android:name=".ui.activity.TermsActivity"/>
         <activity android:name=".ui.activity.AlterPassActivity"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.br.mytasksapp.ui.fragment.GeneralDataFragment"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
 
         <meta-data
             android:name="preloaded_fonts"

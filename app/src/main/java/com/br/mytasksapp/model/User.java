@@ -14,10 +14,14 @@ public class User implements Serializable {
     @SerializedName("email")
     private String email;
 
-    public User(String id, String name, String email){
+    @SerializedName("avatar")
+    private String avatar;
+
+    public User(String id, String name, String email, String avatar){
         this.id = id;
         this.name = name;
         this.email = email;
+        this.avatar = avatar;
     }
 
     public String getId() {
@@ -42,5 +46,13 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

@@ -141,6 +141,7 @@ public class SettingsActivity extends AppCompatActivity implements OnTaskComplet
                 for(int i = 0; i < fcm.length(); i++){
                     JSONObject object = fcm.getJSONObject(i);
                     settings.add(new Setting(itemsSettings[i], object.getBoolean("is_accepted")));
+                    Util.putPref("is_accepted", String.valueOf(object.getBoolean("is_accepted")));
                 }
 
                 final SettingsAdapter settingsAdapter = new SettingsAdapter(context, settings);

@@ -14,10 +14,14 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.br.mytasksapp.MyTaskApplication;
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.api.rest.TaskHttp;
 import com.br.mytasksapp.model.Task;
 import com.br.mytasksapp.ui.activity.HomeActivity;
 import com.br.mytasksapp.ui.activity.TaskActivity;
+import com.br.mytasksapp.util.Util;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -26,6 +30,20 @@ import java.net.URL;
 import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+
+        TaskHttp taskHttp = new TaskHttp(MyTaskApplication.getInstance());
+
+        Util.setApiFCMToken(s);
+
+        if(Util.containsPref("first_access") && Util.getPref("first_access", null).equals("no")){
+            taskHttp.setFCMToken(!Util.containsPref("is_accepted") || Boolean.parseBoolean(Util.getPref("is_accepted", null)));
+        }
+    }
+
     /**
      * Called when message is received.
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.

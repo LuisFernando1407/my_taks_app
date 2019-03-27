@@ -91,6 +91,7 @@ public class BaseJsonHandler extends JsonHttpResponseHandler {
             Util.setApiToken(null);
             Util.removePref("lastUser");
             Util.removePref("first_access");
+            Util.removePref("is_accepted");
             ctx.startActivity(new Intent(ctx, LoginActivity.class));
         }
     }
