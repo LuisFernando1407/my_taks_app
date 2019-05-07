@@ -1,6 +1,10 @@
 package com.br.mytasksapp.ui.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -8,6 +12,7 @@ import android.widget.TextView;
 
 import com.br.mytasksapp.BuildConfig;
 import com.br.mytasksapp.R;
+import com.br.mytasksapp.controller.GPSTrackerController;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -22,6 +27,15 @@ public class TermsActivity extends AppCompatActivity implements OnMapReadyCallba
     private GoogleMap mGoogleMap;
     private MapView mMapView;
     private TextView locationLabel;
+
+    private GPSTrackerController gpsTrackerController;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gpsTrackerController = new GPSTrackerController(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +58,7 @@ public class TermsActivity extends AppCompatActivity implements OnMapReadyCallba
 
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle != null){
+        if (bundle != null) {
             TextView toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
             toolbarTitle.setText("Sobre");
             locationLabel.setVisibility(View.VISIBLE);
@@ -69,7 +83,6 @@ public class TermsActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this);
@@ -80,6 +93,11 @@ public class TermsActivity extends AppCompatActivity implements OnMapReadyCallba
 
         double lat = -23.440649;
         double lng = -46.501294;
+
+        if(gpsTrackerController.getLocation() != null){
+            lat = gpsTrackerController.getLatitude();
+            lng = gpsTrackerController.getLongitude();
+        }
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
 

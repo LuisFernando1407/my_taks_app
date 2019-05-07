@@ -28,7 +28,7 @@ public class Constants {
     }
 
     private class IP {
-        private static final String UFC = "http://10.0.78.240:3000";
+        private static final String UFC = "http://10.0.1.196:3000";
 
         private static final String MY_HOUSE_ARACOIABA = "http://192.168.0.104:3000";
 
